@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-DCpoSyLUPETLEvctdzd3lgfZtS1WT8BpNk+OIb4l7ZQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://avatars.githubusercontent.com https://opengraph.githubassets.com https://cdn.simpleicons.org; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anmolji Bhandare — Data Analyst & ML</title>
 <meta name="description" content="Portfolio of Anmolji Bhandare — data/business analyst and aspiring data scientist & ML engineer.">
@@ -179,6 +181,7 @@
   </main>
 </div>
 
+<!-- ponytail: CSP in <head> pins this script by sha256; editing it means regenerating that hash -->
 <script>
   const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { threshold: .1 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
