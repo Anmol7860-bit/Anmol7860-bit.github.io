@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-sb4a71+G5x0V6x8qbWAxbivt6PDJAUGGUfuY69D1fRE='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://opengraph.githubassets.com https://cdn.simpleicons.org; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-bBftMWfaUVrXWn5PAgVuGbKuFHF0sjoqV+NAiKXG86Y='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://opengraph.githubassets.com https://cdn.simpleicons.org; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anmolji Bhandare — Data Analyst & ML Engineer</title>
@@ -66,7 +66,7 @@
          filter: blur(70px); left: 50%; top: 55%; transform: translate(-50%, -50%); animation: orb 8s ease-in-out infinite; opacity: .55; }
   .orb.two { width: 260px; height: 260px; left: 8%; top: 12%; animation-duration: 11s; opacity: .35; }
   @keyframes orb { 50% { transform: translate(-45%, -58%) scale(1.12); } }
-  .wave { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
+  .globe { position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%); width: min(80vh, 48vw, 740px); aspect-ratio: 1; z-index: 2; }
   .intro { position: absolute; z-index: 3; top: 42%; right: 66%; transform: translateY(-50%); }
   .intro h2 { margin: 0 0 6px; color: var(--accent); font-weight: 300; font-size: clamp(18px, 2vw, 25px); letter-spacing: 2px; }
   .intro h1 { margin: 0; font-weight: 500; font-size: clamp(32px, 4.4vw, 62px); line-height: .95; letter-spacing: 2px; text-transform: uppercase; }
@@ -174,6 +174,7 @@
     .intro { top: 16%; left: 0; right: 0; transform: none; text-align: center; }
     .info { top: auto; bottom: 8%; left: 0; right: 0; transform: none; text-align: center; }
     .roles { margin: 0; justify-items: center; }
+    .globe { width: min(100vw, 56vh); top: 50%; }
     .what { grid-template-columns: 1fr; }
     .boxes { height: auto; } .box, .boxes:hover .box, .boxes .box:hover { flex: none; padding: 28px; }
     .tl-line { left: 0; transform: none; }
@@ -222,7 +223,7 @@
 <main id="top">
   <section class="landing">
     <div class="orb"></div><div class="orb two"></div>
-    <canvas class="wave" id="wave" aria-hidden="true"></canvas>
+    <canvas class="globe" id="globe" aria-hidden="true"></canvas>
     <div class="intro">
       <h2>Hello! I'm</h2>
       <h1>Anmolji<br>Bhandare</h1>
@@ -381,34 +382,50 @@
     (function loop() { cx += (x - cx) * .15; cy += (y - cy) * .15; cur.style.transform = `translate(${cx}px, ${cy}px)`; requestAnimationFrame(loop); })();
   }
 
-  // particle wave: a grid of points on summed sine waves, perspective-projected on a 2D canvas
-  const cv = $('#wave'), ctx = cv.getContext('2d');
-  const COLS = 110, ROWS = 46;
-  let time = 0, mx = 0, my = 0, ex = 0, ey = 0, dpr = 1;
+  // earth globe: fibonacci-sphere dots, lit where a 2° land mask (world-atlas land-110m) says land
+  const LAND = atob('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf4AP/AAAAAAAAAAAAAAAAAAAAAAAAX/z///+AAAAAAAABAAAAAAAAAAAAAYd8P///wAA+AAAAAA8AAAAAAAAAAAwAnw////4AAIAAAAAAGAAAAAAAAAAADivwAf//wAAAAADAAf/wAHYAAAAAADoi3sAP//gAAAAAMAD///sAAAAgBgACfwz/AD/+gAAAwAEHf8AABADf+AP4EAY2icP8AB///4A//EgAAAAAAAgHwAAAAAAeD4Af///gAFAAgAAAAAAAAzgAAAAAC4H8D/h//BhQAAAAAAAAAAAAP/////4A0B4AAAD5/////////////Af3////gHgA4AAAH5///////////LwAHgH///gHkAAAAAH4/////////+CIAABAB///4D+AAAAGCx/////////4A8AAIAAf///n/gAAAOCD/////////wA4AAAAAf///n/wAAAbP///////////AgAAAAAP/////wAAADf//////////9AAAAAAAF////0YAAAB///////////9AAAAAAAD////8EAAAB///////////5AAAAAAAD////2AAAAB/f5fP//////wAAAAAAAD////gAAAAfxnwPP//////jAAAAAAAD////AAAAAPCb3/n/////+CAAAAAAAD///8AAAAAfALf/n////+ECAAAAAAAB///8AAAAAGHQP/n/////mMAAAAAAAA///8AAAAAH+Ai///////E8AAAAAAAAf//wAAAAAP/AA///////BgAAAAAAAAP//gAAAAAf/73///////gAAAAAAAAAD/AQAAAAAf////f/////gAAAAAAAAAF+AQAAAAB///+/n/////AAAAAAAAAAC+AAAAAAB///+f0H////AAAAAAAAAAAeAwAAAAD////f/B///8gAAAAAAAAAAeGEAAAAH////v+B/z/AAAAAAAAAAAAPMAgAAAD////n+A/B+gAAAAAAAAAAAD8AAAAAD////n4AeB/AgAAAAAAAAAAAPAAAAAH////3gAcAfAgAAAAAAAAAAADAAAAAD////6AAcAfggAAAAAAAAAAABDwAAAD////8wAMATAIAAAAAAAAAAAAr/AAAB/////gAKASAAAAAAAAAAAAAAH/gAAA/////gACAAAIAAAAAAAAAAAAH/8AAAaH///AAAAsGAAAAAAAAAAAAAH/+AAAAB//+AAAAUOAAAAAAAAAAAAAP/+AAAAB//8AAAAYegAAAAAAAAAAAAP//gAAAD//4AAAAMeBgAAAAAAAAAAAP//8AAAB//wAAAAGdiuAAAAAAAAAAAf///AAAA//wAAAACAQHgAAAAAAAAAAP///gAAA//wAAAABwAHwgAAAAAAAAAH///AAAA//wAAAAACIDQIAAAAAAAAAH//+AAAAf/wAAAAAAAAAAAAAAAAAAAD//+AAAA//wgAAAAABxAAAAAAAAAAAD//+AAAA//wgAAAAAPxgBAAAAAAAAAA//8AAAA//jgAAAAAf5gAAAAAAAAAAAf/8AAAA//DgAAAAAf/gAAAAAAAAAAAf/8AAAAf/DAAAAAD//4CAAAAAAAAAAf/wAAAAf/DAAAAAH//4AAAAAAAAAAAf/AAAAAf+CAAAAAH//8AAAAAAAAAAAf/AAAAAP8AAAAAAH//+AAAAAAAAAAA/+AAAAAP8AAAAAAH//+AAAAAAAAAAA/+AAAAAH4AAAAAAD//+AAAAAAAAAAA/8AAAAAHwAAAAAADwf8AAAAAAAAAAA/gAAAAAAAAAAAAACAH4AIAAAAAAAAB/wAAAAAAAAAAAAAAAD4AEAAAAAAAAB+AAAAAAAAAAAAAAAAAAAGAAAAAAAAB6AAAAAAAAAAAAAAAAAwAMAAAAAAAAA8AAAAAAAAAAAAAAAAAQAYAAAAAAAAB4AAAAAAAAAAAAAAAAAAAwAAAAAAAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAAAAAAAACAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAeAAIP+f/gAAAAAAAAAAAMAAAAAAABP/+H//////AAAAAAAAAAA+AAAAAf////8////////AAAAAAAOEAPAAAB///////////////gAAAP//T//8AAAH//////////////+AAAH/////4AAAH///////////////8AAE//////4ABw////////////////8AAAD//////gCA////////////////wAAAf/////////////////////////+AAH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+  const isLand = (lat, lon) => { const i = Math.min(89, (90 - lat) / 2 | 0) * 180 + Math.min(179, (lon + 180) / 2 | 0); return LAND.charCodeAt(i >> 3) >> (7 - (i & 7)) & 1; };
+  const cv = $('#globe'), ctx = cv.getContext('2d'), pts = [];
+  const N = 9000;
+  for (let i = 0; i < N; i++) {
+    const y = 1 - 2 * (i + .5) / N, lat = Math.asin(y) * 57.2958, lon = ((i * 137.508) % 360) - 180;
+    const land = isLand(lat, lon);
+    if (!land && Math.imul(i, 2654435761) >>> 0 > 640000000) continue; // keep a sparse, scattered ~15% of ocean dots
+    const r = Math.sqrt(1 - y * y), a = lon / 57.2958;
+    pts.push([Math.cos(a) * r, -y, Math.sin(a) * r, land ? (i % 41 === 0 ? 2 : 1) : 0]); // kind: 0 ocean, 1 land, 2 glowing node
+  }
+  for (let i = 0; i < 180; i++) { const a = i / 180 * Math.PI * 2; pts.push([Math.cos(a) * 1.42, -Math.sin(a) * .45, Math.sin(a) * 1.34, 3]); }
+  let spin = 0, tx = 0, ty = 0, mx = 0, my = 0, dpr = 1;
   addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
-  const sizeWave = () => { dpr = Math.min(devicePixelRatio || 1, 2); cv.width = cv.clientWidth * dpr; cv.height = cv.clientHeight * dpr; };
-  const drawWave = () => {
-    const W = cv.width, H = cv.height, f = H * .5, horizon = H * .5;
-    ctx.clearRect(0, 0, W, H);
-    ex += (mx - ex) * .04; ey += (my - ey) * .04;
-    const camH = 1 + ey * .35;
-    for (let r = ROWS - 1; r >= 0; r--) {          // far rows first
-      const z = 1.1 + r * .14, fade = 1 - r / ROWS, s = f / z;
-      for (let c = 0; c < COLS; c++) {
-        const x = (c / (COLS - 1) - .5) * (2.6 + z * 1.6) - ex * 1.2;
-        const y = Math.sin(x * 1.3 + time) * .16 + Math.sin(z * 1.7 - time * 1.3) * .14 + Math.sin((x - z) * .9 + time * .7) * .09;
-        const px = W / 2 + x * s, py = horizon + (camH - y) * s;
-        if (px < -4 || px > W + 4 || py > H + 4) continue;
-        const k = (y + .39) / .78;                    // height -> violet..lilac
-        ctx.fillStyle = `rgba(${170 + 70 * k | 0},${66 + 150 * k | 0},255,${fade * (.35 + .65 * k)})`;
-        const d = Math.max(.7, s / H * 5) * dpr;
-        ctx.fillRect(px - d / 2, py - d / 2, d, d);
+  const sizeGlobe = () => { dpr = Math.min(devicePixelRatio || 1, 2); cv.width = cv.clientWidth * dpr; cv.height = cv.clientHeight * dpr; };
+  const COLORS = ['255,255,255', '226,206,255', '194,164,255', '170,66,255'];
+  const drawGlobe = () => {
+    const W = cv.width, R = W * .32, c = W / 2;
+    ctx.clearRect(0, 0, W, W);
+    const g = ctx.createRadialGradient(c - R * .3, c - R * .3, R * .1, c, c, R * 1.05);   // faint atmosphere
+    g.addColorStop(0, 'rgba(170,66,255,.16)'); g.addColorStop(1, 'rgba(170,66,255,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(c, c, R * 1.05, 0, 6.2832); ctx.fill();
+    tx += (my * .5 - tx) * .05; ty += (mx * .8 - ty) * .05;
+    const cy = Math.cos(spin + ty), sy = Math.sin(spin + ty), cx = Math.cos(.4 + tx), sx = Math.sin(.4 + tx);
+    for (const [x, y, z, kind] of pts) {
+      const X = x * cy + z * sy, Z0 = -x * sy + z * cy;
+      const Y = y * cx - Z0 * sx, Z = y * sx + Z0 * cx;
+      if (kind < 3 && Z > .25) continue;                               // skip most of the far side
+      const persp = 3 / (3 + Z), front = Math.max(0, Math.min(1, (1 - Z) / 1.3));
+      const a = kind === 0 ? .1 + .25 * front : kind === 3 ? .15 + .7 * front : .2 + .8 * front;
+      const px = c + X * R * persp, py = c + Y * R * persp;
+      ctx.fillStyle = `rgba(${COLORS[kind]},${a})`;
+      if (kind === 2) {
+        ctx.shadowColor = '#aa42ff'; ctx.shadowBlur = 14 * dpr;
+        ctx.beginPath(); ctx.arc(px, py, 2.6 * persp * dpr, 0, 6.2832); ctx.fill(); ctx.shadowBlur = 0;
+      } else {
+        const d = (kind === 1 ? 2.1 : 1.5) * persp * dpr; ctx.fillRect(px - d / 2, py - d / 2, d, d);
       }
     }
   };
-  sizeWave(); drawWave();
-  addEventListener('resize', () => { sizeWave(); drawWave(); });
-  if (!calm) (function loop() { if (scrollY < innerHeight) { time += .018; drawWave(); } requestAnimationFrame(loop); })();
+  sizeGlobe(); drawGlobe();
+  addEventListener('resize', () => { sizeGlobe(); drawGlobe(); });
+  if (!calm) (function loop() { if (scrollY < innerHeight) { spin += .003; drawGlobe(); } requestAnimationFrame(loop); })();
 
   // reveal on scroll
   const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { threshold: .15 });
