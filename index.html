@@ -2,189 +2,408 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-DCpoSyLUPETLEvctdzd3lgfZtS1WT8BpNk+OIb4l7ZQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://avatars.githubusercontent.com https://opengraph.githubassets.com https://cdn.simpleicons.org; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-D0L+DwkXU+K/T352EpB43DzQw96lL9WAYXoDpkmBuHs='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://avatars.githubusercontent.com https://opengraph.githubassets.com https://cdn.simpleicons.org; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Anmolji Bhandare — Data Analyst & ML</title>
+<title>Anmolji Bhandare — Data Analyst & ML Engineer</title>
 <meta name="description" content="Portfolio of Anmolji Bhandare — data/business analyst and aspiring data scientist & ML engineer.">
 <link rel="icon" href="https://avatars.githubusercontent.com/u/144384744?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #151312; --fg: #fff; --muted: #998f8f; --line: #b6b4bd33;
-    --orange: #f46c38; --lime: #c5ff41; --cream: #faf7f3; --ink: #111;
-  }
+  :root { --bg: #0b080c; --fg: #fff; --accent: #c2a4ff; --violet: #aa42ff; --muted: #ffffff8c; --line: #ffffff26; --w: min(94%, 1400px); }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 Inter, system-ui, sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 Geist, system-ui, sans-serif; overflow-x: hidden; }
   a { color: inherit; text-decoration: none; }
   img { display: block; max-width: 100%; }
+  .container { width: var(--w); margin: 0 auto; }
+  .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 6px; font-size: 18px; font-weight: 400; margin: 0 0 16px; }
 
-  /* floating pill nav */
-  nav { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10;
-        display: flex; gap: 4px; padding: 6px; border-radius: 16px;
-        background: #1f1c1bcc; border: 1px solid var(--line); backdrop-filter: blur(12px); }
-  nav a { padding: 8px 14px; border-radius: 10px; font-size: 14px; color: var(--muted); transition: .2s; }
-  nav a:hover { color: var(--fg); background: #ffffff14; }
+  /* ---------- loader ---------- */
+  .loader { position: fixed; inset: 0; z-index: 1000; background: #eae5ec; display: grid; place-items: center; overflow: hidden;
+            transition: opacity .6s .6s; animation: autohide 0s 10s forwards; /* fallback if JS never runs */ }
+  @keyframes autohide { to { visibility: hidden; } }
+  .loader.done { opacity: 0; pointer-events: none; }
+  .loader-marquee { position: absolute; top: 50%; left: 0; transform: translateY(-50%); white-space: nowrap; color: var(--bg);
+                    font-size: clamp(56px, 8vw, 110px); font-weight: 600; text-transform: uppercase; display: flex; }
+  .loader-marquee div { animation: marquee 18s linear infinite; padding-right: 60px; }
+  .loader-marquee span { padding: 0 50px; position: relative; }
+  .loader-marquee span::before { content: ""; position: absolute; left: 0; top: 50%; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); transform: translate(-50%, -50%); }
+  @keyframes marquee { to { transform: translateX(-100%); } }
+  .loader-pill { position: relative; z-index: 1; background: #000; color: #fff; border: 0; border-radius: 999px; font: 500 20px Geist, sans-serif;
+                 letter-spacing: 2px; text-transform: uppercase; padding: 24px 56px; min-width: 260px; cursor: pointer; overflow: hidden;
+                 box-shadow: 0 15px 15px #0003; transition: transform 1.1s cubic-bezier(.33,.11,1,.72), background .3s; }
+  .loader-pill:disabled { cursor: progress; }
+  .loader-pill::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120px 60px at var(--mx, 50%) var(--my, 50%), #a87cff, transparent 70%); opacity: 0; transition: opacity .4s; }
+  .loader-pill:not(:disabled):hover::after { opacity: .8; }
+  .loader-pill span { position: relative; z-index: 1; }
+  .loader.clicked .loader-pill { transform: scale(60); background: var(--bg); }
+  .loader.clicked .loader-pill span { opacity: 0; }
 
-  .wrap { max-width: 1100px; margin: 0 auto; padding: 120px 16px 40px;
-          display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: start; }
+  /* ---------- chrome ---------- */
+  header { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: var(--w); z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 28px 0; }
+  .nav-fade { position: fixed; top: 0; left: 0; right: 0; height: 120px; z-index: 40; pointer-events: none; background: linear-gradient(var(--bg) 40%, transparent); }
+  .logo { font-weight: 700; font-size: 20px; letter-spacing: 1px; }
+  header nav { display: flex; gap: 36px; }
+  header nav a { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; position: relative; }
+  header nav a::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 1px; width: 0; background: var(--accent); transition: width .3s; }
+  header nav a:hover::after { width: 100%; }
+  .socials-fixed { position: fixed; left: max(3%, calc(50% - 700px)); bottom: 40px; z-index: 50; display: flex; flex-direction: column; gap: 20px; }
+  .socials-fixed a { color: #ffffff80; transition: color .3s, transform .3s; }
+  .socials-fixed a:hover { color: var(--fg); transform: scale(1.15); }
+  svg.i { width: 22px; height: 22px; fill: currentColor; display: block; }
+  .cursor { position: fixed; top: 0; left: 0; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; pointer-events: none; z-index: 999;
+            background: #e6c3ff; box-shadow: 0 0 30px #af83ff; mix-blend-mode: difference; transition: width .3s, height .3s, margin .3s, opacity .3s; display: none; opacity: 0; }
+  .cursor.live { opacity: 1; }
+  .cursor.big { width: 90px; height: 90px; margin: -45px 0 0 -45px; }
+  @media (pointer: fine) { .cursor { display: block; } }
 
-  /* sticky profile card */
-  .profile { position: sticky; top: 100px; background: var(--fg); color: var(--ink);
-             border-radius: 24px; padding: 32px; text-align: center; }
-  .profile img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 16px; margin-bottom: 24px; }
-  .profile h2 { font-size: 28px; font-weight: 800; margin: 0 0 12px; }
-  .profile p { color: #6a6b6e; margin: 0 0 24px; }
-  .profile .dash { position: absolute; top: 18px; right: 18px; width: 72px; height: 72px;
-                   border: 2px dashed var(--orange); border-radius: 50%; pointer-events: none; }
-  .socials { display: flex; justify-content: center; gap: 16px; }
-  .socials a { color: var(--orange); transition: transform .2s; }
-  .socials a:hover { transform: translateY(-3px); }
-  .socials svg { width: 24px; height: 24px; fill: currentColor; }
+  /* ---------- landing ---------- */
+  .landing { position: relative; height: 100svh; min-height: 640px; overflow: hidden; }
+  .orb { position: absolute; width: 420px; height: 420px; border-radius: 50%; background: #fb8dff; box-shadow: inset -60px 40px 60px #5400ff99;
+         filter: blur(70px); left: 50%; top: 55%; transform: translate(-50%, -50%); animation: orb 8s ease-in-out infinite; opacity: .55; }
+  .orb.two { width: 260px; height: 260px; left: 8%; top: 12%; animation-duration: 11s; opacity: .35; }
+  @keyframes orb { 50% { transform: translate(-45%, -58%) scale(1.12); } }
+  .portrait { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); height: 72%; aspect-ratio: 3/4; z-index: 2;
+              -webkit-mask: linear-gradient(#000 55%, transparent 98%); mask: linear-gradient(#000 55%, transparent 98%); }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; border-radius: 50% 50% 0 0 / 38% 38% 0 0; filter: grayscale(.15) contrast(1.05); }
+  .intro { position: absolute; z-index: 3; top: 42%; right: 66%; transform: translateY(-50%); }
+  .intro h2 { margin: 0 0 6px; color: var(--accent); font-weight: 300; font-size: clamp(18px, 2vw, 25px); letter-spacing: 2px; }
+  .intro h1 { margin: 0; font-weight: 500; font-size: clamp(32px, 4.4vw, 62px); line-height: .95; letter-spacing: 2px; text-transform: uppercase; }
+  .info { position: absolute; z-index: 3; top: 52%; left: 68%; transform: translateY(-50%); }
+  .info h3 { margin: 0; color: var(--accent); font-weight: 300; font-size: clamp(20px, 2.4vw, 35px); letter-spacing: 2px; }
+  .roles { display: grid; height: 1.05em; overflow: hidden; font-size: clamp(34px, 4.6vw, 66px); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; line-height: 1; margin-left: 20px; }
+  .roles span { grid-area: 1 / 1; white-space: nowrap; transition: transform .8s cubic-bezier(.7,0,.2,1), opacity .8s; transform: translateY(110%); opacity: 0; }
+  .roles span.on { transform: none; opacity: 1; }
+  .roles span.out { transform: translateY(-110%); opacity: 0; }
+  .roles span:nth-child(2) { -webkit-text-stroke: 1px var(--fg); color: transparent; }
+  .scroll-hint { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 3; font-size: 12px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; }
 
-  /* big two-tone headings */
-  h1, .h { font-size: clamp(48px, 9vw, 96px); font-weight: 900; line-height: .9; margin: 0 0 24px;
-           text-transform: uppercase; letter-spacing: -.02em; }
-  h1 span, .h span { display: block; color: var(--muted); opacity: .45; }
-  .lead { color: var(--muted); font-size: 18px; max-width: 480px; margin: 0 0 40px; }
-  section { margin-bottom: 120px; scroll-margin-top: 100px; }
+  /* ---------- about ---------- */
+  .about { padding: 160px 0; }
+  .about p { font-size: clamp(22px, 2.4vw, 36px); font-weight: 600; line-height: 1.25; max-width: 1000px; margin: 0; }
+  .about .w { opacity: .15; transition: opacity .3s; }
+  .about .w.lit { opacity: 1; }
 
-  .stats { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
-  .stats b { display: block; font-size: 64px; font-weight: 800; line-height: 1; }
-  .stats small { color: var(--muted); text-transform: uppercase; font-size: 14px; line-height: 1.3; display: block; margin-top: 6px; }
+  /* ---------- what I do ---------- */
+  .what { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 80px 0; }
+  .what h2 { font-size: calc(4vw + 25px); line-height: .95; font-weight: 600; margin: 0; }
+  .what h2 span { -webkit-text-stroke: 1px var(--fg); color: transparent; }
+  .boxes { display: flex; flex-direction: column; height: 520px; }
+  .box { position: relative; flex: 1; padding: 36px 44px; overflow: hidden; transition: flex .6s; border: 1px dashed var(--line); }
+  .box + .box { border-top: 0; }
+  .boxes:hover .box { flex: .6; } .boxes .box:hover { flex: 1.6; }
+  .box::before, .box::after { content: ""; position: absolute; width: 14px; height: 14px; border: 2px solid var(--accent); }
+  .box::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+  .box::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+  .box h3 { font-size: 35px; margin: 0; letter-spacing: 1px; }
+  .box h4 { margin: 4px 0 12px; font-weight: 300; font-size: 14px; letter-spacing: 1px; opacity: .4; }
+  .box p { font-size: 15px; font-weight: 300; color: var(--muted); margin: 0 0 16px; max-width: 460px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips span { font-size: 13px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: #ffffff0a; }
 
-  .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .skill { border-radius: 16px; padding: 28px; min-height: 200px; color: var(--ink);
-           display: flex; flex-direction: column; justify-content: space-between; transition: transform .25s; }
-  .skill:hover { transform: translateY(-4px); }
-  .skill svg { width: 40px; height: 40px; }
-  .skill strong { font-size: 18px; font-weight: 800; text-transform: uppercase; line-height: 1.25; }
+  /* ---------- career / journey ---------- */
+  .career { padding: 120px 0 200px; }
+  .grad { font-size: clamp(45px, 6vw, 80px); line-height: 1; font-weight: 400; text-align: center; margin: 0 0 120px;
+          background: linear-gradient(0deg, #7f40ff, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .timeline { position: relative; max-width: 1200px; margin: 0 auto; }
+  .tl-line { position: absolute; top: -50px; left: 50%; width: 3px; transform: translateX(-50%); height: 0;
+             background: linear-gradient(to top, var(--violet) 20%, var(--accent) 50%, transparent 95%); }
+  .tl-line::after { content: ""; position: absolute; bottom: 0; left: 50%; width: 10px; height: 10px; border-radius: 50%; transform: translate(-50%, 50%);
+                    background: var(--violet); box-shadow: 0 0 5px 2px #d29bff, 0 0 15px 8px #d097ff, 0 0 110px 20px #f2c0ff; }
+  .tl-item { display: flex; justify-content: space-between; margin-bottom: 70px; }
+  .tl-head { display: flex; justify-content: space-between; gap: 40px; width: 42%; }
+  .tl-head h4 { font-size: 28px; line-height: 1.1; font-weight: 500; margin: 0; }
+  .tl-head h5 { font-size: 18px; font-weight: 400; color: var(--accent); margin: 10px 0 0; }
+  .tl-head h3 { font-size: 46px; font-weight: 500; margin: 0; line-height: 1; }
+  .tl-item p { width: 42%; font-size: 15px; font-weight: 300; color: var(--muted); margin: 0; }
 
-  /* project rows */
-  .row { display: flex; gap: 20px; align-items: center; padding: 12px; border-radius: 16px; transition: background .2s; }
-  .row:hover { background: #ffffff0d; }
-  .row img { width: 140px; aspect-ratio: 2/1; object-fit: cover; border-radius: 10px; flex-shrink: 0; background: #222; }
-  .row div { flex: 1; min-width: 0; }
-  .row h3 { margin: 0 0 4px; font-size: 22px; font-weight: 800; }
-  .row p { margin: 0; color: var(--muted); font-size: 14px; }
-  .arrow { color: var(--orange); font-size: 24px; transition: transform .2s; }
-  .row:hover .arrow { transform: translate(4px, -4px); }
+  /* ---------- work (horizontal scroll) ---------- */
+  .work { position: relative; }
+  .work-sticky { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+  .work h2 { font-size: clamp(45px, 6vw, 80px); font-weight: 400; margin: 0 0 40px; }
+  .work h2 span { color: var(--accent); }
+  .track { display: flex; will-change: transform; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .card { flex: 0 0 min(560px, 85vw); padding: 40px 50px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 24px; transition: background .3s; }
+  .card:hover { background: #ffffff08; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+  .card .num { font-size: 50px; font-weight: 600; line-height: 1; opacity: .9; }
+  .card h3 { font-size: 26px; font-weight: 500; margin: 0 0 4px; }
+  .card .cat { color: var(--accent); font-size: 14px; margin: 0; }
+  .card .tools { font-size: 14px; color: var(--muted); margin: 0; }
+  .card img { width: 100%; aspect-ratio: 2/1; object-fit: cover; border-radius: 6px; background: #1a151c; filter: saturate(.8); transition: filter .4s, transform .4s; }
+  .card:hover img { filter: none; transform: scale(1.02); }
+  .card .go { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .card:hover .go { color: var(--fg); }
 
-  .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-  .tool { display: flex; gap: 14px; align-items: center; padding: 14px; border-radius: 14px; transition: background .2s; }
-  .tool:hover { background: #ffffff0d; }
-  .tool img { width: 44px; height: 44px; padding: 10px; border-radius: 10px; background: var(--fg); }
-  .tool b { display: block; } .tool small { color: var(--muted); }
+  /* ---------- tech stack ---------- */
+  .stack { padding: 160px 0; text-align: center; }
+  .bubbles { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px; max-width: 900px; margin: 0 auto; }
+  .bubble { width: 104px; height: 104px; border-radius: 50%; display: grid; place-items: center; position: relative;
+            background: radial-gradient(circle at 30% 25%, #ffffff2e, #ffffff08 60%); border: 1px solid var(--line);
+            animation: float 6s ease-in-out infinite; transition: box-shadow .3s, scale .3s; }
+  .bubble:nth-child(3n) { animation-delay: -2s; } .bubble:nth-child(3n+1) { animation-delay: -4s; animation-duration: 7s; }
+  .bubble:hover { box-shadow: 0 0 40px #aa42ff88; scale: 1.1; }
+  .bubble img { width: 40px; height: 40px; }
+  .bubble small { position: absolute; bottom: -24px; font-size: 12px; color: var(--muted); white-space: nowrap; opacity: 0; transition: opacity .3s; }
+  .bubble:hover small { opacity: 1; }
+  @keyframes float { 50% { transform: translateY(-14px); } }
 
-  .cta { display: inline-block; padding: 16px 28px; border-radius: 12px; background: var(--orange);
-         color: var(--fg); font-weight: 600; transition: transform .2s; }
-  .cta:hover { transform: translateY(-2px); }
-  footer { color: var(--muted); font-size: 14px; }
+  /* ---------- contact ---------- */
+  .contact { padding: 100px 0 80px; }
+  .contact > h3 { font-size: 32px; font-weight: 400; text-transform: uppercase; margin: 0 0 40px; }
+  .cgrid { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .cgrid h4 { font-size: 14px; font-weight: 500; opacity: .6; margin: 0 0 10px; }
+  .cgrid a.big { display: block; font-size: 20px; margin-bottom: 8px; width: fit-content; position: relative; }
+  .cgrid a.big::after { content: " ↗"; color: var(--accent); }
+  .cgrid a.big:hover { color: var(--accent); }
+  .credit { font-size: 22px; line-height: 1.3; margin: 0; }
+  .credit span { color: var(--accent); }
 
-  /* scroll reveal */
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s; }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity .9s, transform .9s cubic-bezier(.2,.7,.2,1); }
   .reveal.in { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } html { scroll-behavior: auto; } }
 
-  @media (max-width: 860px) {
-    .wrap { grid-template-columns: 1fr; gap: 48px; padding-top: 96px; }
-    .profile { position: static; max-width: 400px; margin: 0 auto; }
-    .skills { grid-template-columns: 1fr; }
-    .row img { width: 96px; }
-    .row h3 { font-size: 18px; }
-    nav a { padding: 8px 10px; }
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    header nav { gap: 18px; } header nav a { font-size: 12px; letter-spacing: 1px; }
+    .socials-fixed { display: none; }
+    .intro { top: 16%; left: 0; right: 0; transform: none; text-align: center; }
+    .info { top: auto; bottom: 8%; left: 0; right: 0; transform: none; text-align: center; }
+    .roles { margin: 0; justify-items: center; }
+    .portrait { height: 52%; bottom: 16%; }
+    .what { grid-template-columns: 1fr; }
+    .boxes { height: auto; } .box, .boxes:hover .box, .boxes .box:hover { flex: none; padding: 28px; }
+    .tl-line { left: 0; transform: none; }
+    .tl-item { flex-direction: column; gap: 14px; padding-left: 28px; }
+    .tl-head, .tl-item p { width: 100%; }
+    .tl-head h3 { font-size: 32px; }
+    .work { height: auto !important; }
+    .work-sticky { position: static; height: auto; padding: 80px 0; }
+    .track { overflow-x: auto; scroll-snap-type: x mandatory; transform: none !important; }
+    .card { scroll-snap-align: start; padding: 28px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .loader { display: none; } .reveal { opacity: 1; transform: none; } .about .w { opacity: 1; }
   }
 </style>
 </head>
 <body>
-<nav>
-  <a href="#home">Home</a>
-  <a href="#projects">Projects</a>
-  <a href="#tools">Tools</a>
-  <a href="#contact">Contact</a>
-</nav>
 
-<div class="wrap">
-  <aside class="profile">
-    <span class="dash"></span>
-    <img src="https://avatars.githubusercontent.com/u/144384744?s=460" alt="Anmolji Bhandare">
-    <h2>Anmolji Bhandare</h2>
-    <p>A data analyst turning messy data into clear business decisions.</p>
-    <div class="socials">
-      <a href="https://github.com/Anmol7860-bit" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></a>
-      <a href="https://linkedin.com/in/anmolji-bhandare-593ab9269" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.5H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/></svg></a>
-      <a href="https://x.com/ANMOLDBHANDARE2" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.9 1.2h3.7l-8 9.2L24 22.8h-7.4l-5.8-7.6-6.6 7.6H.5L9 13 0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.4h2L6.5 3.2H4.3l13.3 17.4z"/></svg></a>
-      <a href="https://instagram.com/anmol_4real_" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
-    </div>
-  </aside>
-
-  <main>
-    <section id="home">
-      <h1 class="reveal">Data<span>Analyst</span></h1>
-      <p class="lead reveal">Aspiring data scientist & ML engineer. I combine SQL, Python, Tableau and machine learning with a consulting-oriented approach to solve real business problems.</p>
-      <div class="stats reveal">
-        <div><b>+19</b><small>Public<br>repositories</small></div>
-        <div><b>+9</b><small>Featured<br>projects</small></div>
-        <div><b>+2</b><small>Live<br>web apps</small></div>
-      </div>
-      <div class="skills reveal">
-        <div class="skill" style="background: var(--orange)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></svg>
-          <strong>Data analytics, SQL, Tableau dashboards</strong>
-        </div>
-        <div class="skill" style="background: var(--lime)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
-          <strong>Python, machine learning, RAG / LLMs</strong>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <h2 class="h reveal">Recent<span>Projects</span></h2>
-      <!-- thumbnails are GitHub's auto-generated social cards; swap in screenshots any time -->
-      <a class="row reveal" href="https://backend-black-beta-28.vercel.app"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/studious" alt=""><div><h3>Studious</h3><p>Virtual study campus for students & self-learners · JavaScript</p></div><span class="arrow">↗</span></a>
-      <a class="row reveal" href="https://art-o-mart.vercel.app/"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Art-O-Mart-Gen-AI-Exchange-Hackathon-H2S" alt=""><div><h3>Art-O-Mart</h3><p>Gen AI marketplace for artisans · Gen AI Exchange Hackathon</p></div><span class="arrow">↗</span></a>
-      <a class="row reveal" href="https://github.com/Anmol7860-bit/Telco-Customer-Churn-ML-DATA-ANALYST-project"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Telco-Customer-Churn-ML-DATA-ANALYST-project" alt=""><div><h3>Telco Customer Churn</h3><p>End-to-end churn prediction · Python, ML, SQL, Tableau</p></div><span class="arrow">↗</span></a>
-      <a class="row reveal" href="https://github.com/Anmol7860-bit/Rag"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Rag" alt=""><div><h3>RAG Pipeline</h3><p>Question answering over custom documents · Python, LLMs</p></div><span class="arrow">↗</span></a>
-      <a class="row reveal" href="https://github.com/Anmol7860-bit/ML-document-analyzer"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/ML-document-analyzer" alt=""><div><h3>ML Document Analyzer</h3><p>Extracting insights from documents with ML · Python</p></div><span class="arrow">↗</span></a>
-      <a class="row reveal" href="https://github.com/Anmol7860-bit/CivicKey-Society-Management-App"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/CivicKey-Society-Management-App" alt=""><div><h3>CivicKey</h3><p>Residential society management app · TypeScript</p></div><span class="arrow">↗</span></a>
-      <a class="row reveal" href="https://github.com/Anmol7860-bit/Zepto-Data-Analyst-Project"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Zepto-Data-Analyst-Project" alt=""><div><h3>Zepto Inventory & Pricing</h3><p>Pricing, discount & stock analysis · PostgreSQL</p></div><span class="arrow">↗</span></a>
-      <a class="row reveal" href="https://public.tableau.com/shared/326JW66BD?:display_count=n&:origin=viz_share_link"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Tableau-KIng-county-House-Sales-Dashboard" alt=""><div><h3>King County House Sales</h3><p>Interactive sales & price dashboard · Tableau</p></div><span class="arrow">↗</span></a>
-      <a class="row reveal" href="https://github.com/Anmol7860-bit/Data-analyst-Finance-Project"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Data-analyst-Finance-Project" alt=""><div><h3>Credit Card Analysis</h3><p>EDA on credit limits, brands & fraud signals · Pandas, Seaborn</p></div><span class="arrow">↗</span></a>
-    </section>
-
-    <section id="tools">
-      <h2 class="h reveal">My<span>Toolkit</span></h2>
-      <div class="tools reveal">
-        <div class="tool"><img src="https://cdn.simpleicons.org/python" alt=""><div><b>Python</b><small>Analysis & ML</small></div></div>
-        <div class="tool"><img src="https://cdn.simpleicons.org/postgresql" alt=""><div><b>PostgreSQL</b><small>SQL analytics</small></div></div>
-        <div class="tool"><img src="https://cdn.simpleicons.org/pandas/150458" alt=""><div><b>Pandas</b><small>Data wrangling</small></div></div>
-        <div class="tool"><img src="https://cdn.simpleicons.org/scikitlearn" alt=""><div><b>scikit-learn</b><small>Machine learning</small></div></div>
-        <div class="tool"><img src="https://cdn.simpleicons.org/jupyter" alt=""><div><b>Jupyter</b><small>Notebooks</small></div></div>
-        <div class="tool"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e97627' stroke-width='2.5'%3E%3Cpath d='M12 2v8M8 6h8M5 12v6M2 15h6M19 12v6M16 15h6M12 16v6M9 19h6'/%3E%3C/svg%3E" alt=""><div><b>Tableau</b><small>Dashboards</small></div></div>
-        <div class="tool"><img src="https://cdn.simpleicons.org/typescript" alt=""><div><b>TypeScript</b><small>Web apps</small></div></div>
-        <div class="tool"><img src="https://cdn.simpleicons.org/git" alt=""><div><b>Git</b><small>Version control</small></div></div>
-      </div>
-      <p class="lead reveal" style="margin-top:32px">Currently learning: Deep Learning, FastAPI, Docker, AWS, Agentic AI and feature engineering.</p>
-    </section>
-
-    <section id="contact">
-      <h2 class="h reveal">Let's work<span>Together</span></h2>
-      <p class="lead reveal">Open to data analyst / ML roles and collaborations.</p>
-      <a class="cta reveal" href="https://linkedin.com/in/anmolji-bhandare-593ab9269">Message me on LinkedIn ↗</a>
-    </section>
-
-    <footer>© Anmolji Bhandare</footer>
-  </main>
+<div class="loader" id="loader">
+  <div class="loader-marquee" aria-hidden="true">
+    <div><span>Data Analyst</span><span>ML Engineer</span><span>Data Analyst</span><span>ML Engineer</span></div>
+    <div><span>Data Analyst</span><span>ML Engineer</span><span>Data Analyst</span><span>ML Engineer</span></div>
+  </div>
+  <button class="loader-pill" id="enter" disabled><span id="pct">Loading 0%</span></button>
 </div>
+
+<div class="cursor" id="cursor"></div>
+<div class="nav-fade"></div>
+<header>
+  <a class="logo" href="#top">AB</a>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<div class="socials-fixed">
+  <a href="https://github.com/Anmol7860-bit" aria-label="GitHub"><svg class="i" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></a>
+  <a href="https://linkedin.com/in/anmolji-bhandare-593ab9269" aria-label="LinkedIn"><svg class="i" viewBox="0 0 24 24"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.5H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/></svg></a>
+  <a href="https://x.com/ANMOLDBHANDARE2" aria-label="X"><svg class="i" viewBox="0 0 24 24"><path d="M18.9 1.2h3.7l-8 9.2L24 22.8h-7.4l-5.8-7.6-6.6 7.6H.5L9 13 0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.4h2L6.5 3.2H4.3l13.3 17.4z"/></svg></a>
+  <a href="https://instagram.com/anmol_4real_" aria-label="Instagram"><svg class="i" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
+</div>
+
+<main id="top">
+  <section class="landing">
+    <div class="orb"></div><div class="orb two"></div>
+    <div class="portrait"><img src="https://avatars.githubusercontent.com/u/144384744?s=600" alt="Anmolji Bhandare"></div>
+    <div class="intro">
+      <h2>Hello! I'm</h2>
+      <h1>Anmolji<br>Bhandare</h1>
+    </div>
+    <div class="info">
+      <h3>A Data</h3>
+      <div class="roles" id="roles"><span class="on">Analyst</span><span>Scientist</span><span>ML Engineer</span></div>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <section class="about container" id="about">
+    <h3 class="eyebrow">About me</h3>
+    <p id="aboutText">I'm a data and business analyst on the path to becoming a data scientist and ML engineer. I turn messy, real-world data into clear decisions using SQL, Python, Tableau and machine learning, and I bring a consulting mindset to every problem: start with the business question, end with an answer people can act on.</p>
+  </section>
+
+  <section class="what container">
+    <h2 class="reveal">W<span>HAT</span><br>I<span> DO</span></h2>
+    <div class="boxes reveal">
+      <div class="box">
+        <h3>ANALYZE</h3>
+        <h4>Description</h4>
+        <p>Cleaning, exploring and querying data to find what actually drives the numbers, then telling that story in dashboards stakeholders can use.</p>
+        <h4>Skillset & tools</h4>
+        <div class="chips"><span>SQL</span><span>PostgreSQL</span><span>Pandas</span><span>EDA</span><span>Tableau</span><span>Matplotlib</span><span>Seaborn</span></div>
+      </div>
+      <div class="box">
+        <h3>BUILD</h3>
+        <h4>Description</h4>
+        <p>Training predictive models and shipping AI-powered apps, from churn prediction to RAG pipelines that answer questions over documents.</p>
+        <h4>Skillset & tools</h4>
+        <div class="chips"><span>Python</span><span>scikit-learn</span><span>RAG</span><span>LLMs</span><span>TypeScript</span><span>JavaScript</span><span>Vercel</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="career container">
+    <h2 class="grad reveal">My journey <br>&amp; growth</h2>
+    <div class="timeline" id="timeline">
+      <div class="tl-line" id="tlLine"></div>
+      <div class="tl-item reveal">
+        <div class="tl-head"><div><h4>ML & AI Apps</h4><h5>Building</h5></div><h3>NOW</h3></div>
+        <p>Building ML and LLM-powered tools: a RAG pipeline for document Q&A, an ML document analyzer and CivicKey, a society management app. Learning deep learning, FastAPI, Docker, AWS and agentic AI.</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-head"><div><h4>Data Analyst Projects</h4><h5>End-to-end analytics</h5></div><h3>2026</h3></div>
+        <p>SQL analysis of Zepto's inventory and pricing, a King County house sales Tableau dashboard, credit card EDA, and a full telco churn project combining ML, SQL and Tableau.</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-head"><div><h4>Gen AI Hackathon</h4><h5>Gen AI Exchange · H2S</h5></div><h3>2026</h3></div>
+        <p>Built Art-O-Mart, a Google Gen AI–powered marketplace for artisans, then shipped Studious, a virtual study campus for students and self-learners.</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-head"><div><h4>Foundations</h4><h5>Python & data</h5></div><h3>2025</h3></div>
+        <p>Started with Python, DSA practice, exploratory data analysis and visualization with Matplotlib and Seaborn, plus a first chatbot experiment (Jarvis 2.0).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="work" id="work">
+    <div class="work-sticky">
+      <h2 class="container">My <span>Work</span></h2>
+      <div class="track" id="track">
+        <a class="card" href="https://backend-black-beta-28.vercel.app"><div class="card-top"><div><h3>Studious</h3><p class="cat">Full-stack web app · Live</p></div><span class="num">01</span></div><p class="tools">Virtual study campus for students & self-learners · JavaScript</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/studious" alt=""><span class="go">View live →</span></a>
+        <a class="card" href="https://art-o-mart.vercel.app/"><div class="card-top"><div><h3>Art-O-Mart</h3><p class="cat">Gen AI · Hackathon · Live</p></div><span class="num">02</span></div><p class="tools">AI marketplace for artisans with smart recommendations</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Art-O-Mart-Gen-AI-Exchange-Hackathon-H2S" alt=""><span class="go">View live →</span></a>
+        <a class="card" href="https://github.com/Anmol7860-bit/Telco-Customer-Churn-ML-DATA-ANALYST-project"><div class="card-top"><div><h3>Telco Customer Churn</h3><p class="cat">Machine learning · Analytics</p></div><span class="num">03</span></div><p class="tools">Python · scikit-learn · SQL · Tableau</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Telco-Customer-Churn-ML-DATA-ANALYST-project" alt=""><span class="go">View code →</span></a>
+        <a class="card" href="https://github.com/Anmol7860-bit/Rag"><div class="card-top"><div><h3>RAG Pipeline</h3><p class="cat">LLMs · Retrieval</p></div><span class="num">04</span></div><p class="tools">Question answering over custom documents · Python</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Rag" alt=""><span class="go">View code →</span></a>
+        <a class="card" href="https://github.com/Anmol7860-bit/ML-document-analyzer"><div class="card-top"><div><h3>ML Document Analyzer</h3><p class="cat">Machine learning</p></div><span class="num">05</span></div><p class="tools">Extracting insights from documents · Python</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/ML-document-analyzer" alt=""><span class="go">View code →</span></a>
+        <a class="card" href="https://github.com/Anmol7860-bit/CivicKey-Society-Management-App"><div class="card-top"><div><h3>CivicKey</h3><p class="cat">Web app</p></div><span class="num">06</span></div><p class="tools">Residential society management · TypeScript</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/CivicKey-Society-Management-App" alt=""><span class="go">View code →</span></a>
+        <a class="card" href="https://github.com/Anmol7860-bit/Zepto-Data-Analyst-Project"><div class="card-top"><div><h3>Zepto Inventory & Pricing</h3><p class="cat">SQL analytics</p></div><span class="num">07</span></div><p class="tools">Pricing, discount & stock analysis · PostgreSQL</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Zepto-Data-Analyst-Project" alt=""><span class="go">View code →</span></a>
+        <a class="card" href="https://public.tableau.com/shared/326JW66BD?:display_count=n&:origin=viz_share_link"><div class="card-top"><div><h3>King County House Sales</h3><p class="cat">Dashboard</p></div><span class="num">08</span></div><p class="tools">Interactive price & sales trends · Tableau</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Tableau-KIng-county-House-Sales-Dashboard" alt=""><span class="go">View dashboard →</span></a>
+        <a class="card" href="https://github.com/Anmol7860-bit/Data-analyst-Finance-Project"><div class="card-top"><div><h3>Credit Card Analysis</h3><p class="cat">EDA · Finance</p></div><span class="num">09</span></div><p class="tools">Credit limits, brands & fraud signals · Pandas, Seaborn</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Data-analyst-Finance-Project" alt=""><span class="go">View code →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack container">
+    <h3 class="eyebrow reveal">My techstack</h3>
+    <h2 class="grad reveal" style="margin-bottom:80px">Tools I use</h2>
+    <div class="bubbles reveal">
+      <div class="bubble"><img src="https://cdn.simpleicons.org/python" alt=""><small>Python</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/postgresql" alt=""><small>PostgreSQL</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/pandas/white" alt=""><small>Pandas</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/numpy" alt=""><small>NumPy</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/scikitlearn" alt=""><small>scikit-learn</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/jupyter" alt=""><small>Jupyter</small></div>
+      <div class="bubble"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e97627' stroke-width='2.5'%3E%3Cpath d='M12 2v8M8 6h8M5 12v6M2 15h6M19 12v6M16 15h6M12 16v6M9 19h6'/%3E%3C/svg%3E" alt=""><small>Tableau</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/typescript" alt=""><small>TypeScript</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/javascript" alt=""><small>JavaScript</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/git" alt=""><small>Git</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/github/white" alt=""><small>GitHub</small></div>
+      <div class="bubble"><img src="https://cdn.simpleicons.org/vercel/white" alt=""><small>Vercel</small></div>
+    </div>
+  </section>
+
+  <section class="contact container" id="contact">
+    <h3 class="reveal">Contact</h3>
+    <div class="cgrid reveal">
+      <div>
+        <h4>Social</h4>
+        <a class="big" href="https://linkedin.com/in/anmolji-bhandare-593ab9269">LinkedIn</a>
+        <a class="big" href="https://github.com/Anmol7860-bit">GitHub</a>
+        <a class="big" href="https://x.com/ANMOLDBHANDARE2">Twitter / X</a>
+        <a class="big" href="https://instagram.com/anmol_4real_">Instagram</a>
+      </div>
+      <div>
+        <h4>Open to</h4>
+        <p class="credit">Data analyst & ML roles,<br>internships and collaborations.</p>
+      </div>
+      <div>
+        <p class="credit">Designed and developed<br>by <span>Anmolji Bhandare</span></p>
+        <h4 style="margin-top:12px">© 2026</h4>
+      </div>
+    </div>
+  </section>
+</main>
 
 <!-- ponytail: CSP in <head> pins this script by sha256; editing it means regenerating that hash -->
 <script>
-  const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { threshold: .1 });
+(() => {
+  const $ = s => document.querySelector(s);
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // loader: count to 100, then click to enter
+  const loader = $('#loader'), pill = $('#enter'), pct = $('#pct');
+  if (calm) loader.remove();
+  else {
+    let n = 0;
+    const t = setInterval(() => {
+      n = Math.min(100, n + Math.ceil(Math.random() * 9));
+      pct.textContent = 'Loading ' + n + '%';
+      if (n === 100) { clearInterval(t); pct.textContent = 'Welcome'; pill.disabled = false; pill.focus(); }
+    }, 60);
+    pill.addEventListener('pointermove', e => { const r = pill.getBoundingClientRect(); pill.style.setProperty('--mx', e.clientX - r.left + 'px'); pill.style.setProperty('--my', e.clientY - r.top + 'px'); });
+    pill.addEventListener('click', () => { loader.classList.add('clicked', 'done'); setTimeout(() => loader.remove(), 1300); });
+  }
+
+  // rotating role words
+  const roles = [...document.querySelectorAll('#roles span')];
+  let r = 0;
+  if (!calm) setInterval(() => {
+    const cur = roles[r], next = roles[r = (r + 1) % roles.length];
+    cur.className = 'out'; next.className = 'on';
+    setTimeout(() => { if (cur.className === 'out') cur.className = ''; }, 800);
+  }, 2600);
+
+  // cursor follower
+  const cur = $('#cursor');
+  if (matchMedia('(pointer: fine)').matches) {
+    let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y;
+    addEventListener('pointermove', e => { x = e.clientX; y = e.clientY; cur.classList.add('live'); cur.classList.toggle('big', !!e.target.closest('a, button')); });
+    (function loop() { cx += (x - cx) * .15; cy += (y - cy) * .15; cur.style.transform = `translate(${cx}px, ${cy}px)`; requestAnimationFrame(loop); })();
+  }
+
+  // reveal on scroll
+  const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { threshold: .15 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // about text: split into words, light up with scroll
+  const about = $('#aboutText');
+  about.innerHTML = about.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' ');
+  const words = about.querySelectorAll('.w');
+
+  // scroll-driven bits: about words, timeline line, horizontal work track
+  const tl = $('#timeline'), line = $('#tlLine'), work = $('#work'), track = $('#track');
+  const wide = matchMedia('(min-width: 901px)');
+  const sizeWork = () => { work.style.height = wide.matches ? track.scrollWidth - innerWidth + innerHeight + 'px' : ''; };
+  const onScroll = () => {
+    const vh = innerHeight;
+    const a = about.getBoundingClientRect(), p = Math.min(1, Math.max(0, (vh * .85 - a.top) / (a.height + vh * .3)));
+    words.forEach((w, i) => w.classList.toggle('lit', i < p * words.length));
+    const t = tl.getBoundingClientRect();
+    line.style.height = Math.min(100, Math.max(0, (vh * .6 - t.top) / t.height * 100)) + '%';
+    if (wide.matches) {
+      const w = work.getBoundingClientRect(), max = track.scrollWidth - innerWidth;
+      track.style.transform = `translateX(${-Math.min(max, Math.max(0, -w.top))}px)`;
+    }
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', () => { sizeWork(); onScroll(); });
+  sizeWork(); onScroll();
+})();
 </script>
 </body>
 </html>
