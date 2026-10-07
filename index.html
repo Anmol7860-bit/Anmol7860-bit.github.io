@@ -137,6 +137,10 @@
   .card:hover img { filter: none; transform: scale(1.02); }
   .card .go { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
   .card:hover .go { color: var(--fg); }
+  .soon { cursor: default; }
+  .soon-art { aspect-ratio: 2/1; border-radius: 6px; border: 1px dashed var(--line); display: grid; place-items: center;
+              background: radial-gradient(circle at 50% 60%, #aa42ff40, transparent 65%); font-size: 13px; letter-spacing: 6px; color: var(--accent); }
+  .badge { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--accent); color: var(--accent); margin-left: 8px; vertical-align: middle; }
 
   /* ---------- tech stack ---------- */
   .stack { padding: 160px 0; text-align: center; }
@@ -294,6 +298,10 @@
         <a class="card" href="https://github.com/Anmol7860-bit/Zepto-Data-Analyst-Project"><div class="card-top"><div><h3>Zepto Inventory & Pricing</h3><p class="cat">SQL analytics</p></div><span class="num">07</span></div><p class="tools">Pricing, discount & stock analysis · PostgreSQL</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Zepto-Data-Analyst-Project" alt=""><span class="go">View code →</span></a>
         <a class="card" href="https://public.tableau.com/shared/326JW66BD?:display_count=n&:origin=viz_share_link"><div class="card-top"><div><h3>King County House Sales</h3><p class="cat">Dashboard</p></div><span class="num">08</span></div><p class="tools">Interactive price & sales trends · Tableau</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Tableau-KIng-county-House-Sales-Dashboard" alt=""><span class="go">View dashboard →</span></a>
         <a class="card" href="https://github.com/Anmol7860-bit/Data-analyst-Finance-Project"><div class="card-top"><div><h3>Credit Card Analysis</h3><p class="cat">EDA · Finance</p></div><span class="num">09</span></div><p class="tools">Credit limits, brands & fraud signals · Pandas, Seaborn</p><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Data-analyst-Finance-Project" alt=""><span class="go">View code →</span></a>
+        <!-- upcoming: to ship one, swap div.soon for an <a class="card" href=...> like the cards above -->
+        <div class="card soon"><div class="card-top"><div><h3>Agentic AI Assistant<span class="badge">In progress</span></h3><p class="cat">Agentic AI · LLMs</p></div><span class="num">10</span></div><p class="tools">An autonomous assistant that plans tasks and uses tools on its own, the next step after Jarvis 2.0 · Python</p><div class="soon-art">COMING SOON</div><span class="go">Building now</span></div>
+        <div class="card soon"><div class="card-top"><div><h3>ML Model as an API<span class="badge">In progress</span></h3><p class="cat">MLOps · Deployment</p></div><span class="num">11</span></div><p class="tools">Serving the churn model as a FastAPI service, containerized with Docker and deployed on AWS</p><div class="soon-art">COMING SOON</div><span class="go">Building now</span></div>
+        <div class="card soon"><div class="card-top"><div><h3>Automated Insight Reports<span class="badge">Planned</span></h3><p class="cat">AI automation · Analytics</p></div><span class="num">12</span></div><p class="tools">A pipeline that turns raw business data into weekly written insight reports with LLMs · Python, SQL</p><div class="soon-art">COMING SOON</div><span class="go">Up next</span></div>
       </div>
     </div>
   </section>
