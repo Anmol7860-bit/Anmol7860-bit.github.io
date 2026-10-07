@@ -6,136 +6,182 @@
 <title>Anmolji Bhandare — Data Analyst & ML</title>
 <meta name="description" content="Portfolio of Anmolji Bhandare — data/business analyst and aspiring data scientist & ML engineer.">
 <link rel="icon" href="https://avatars.githubusercontent.com/u/144384744?v=4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #fafaf9; --fg: #1c1917; --muted: #57534e; --card: #fff;
-    --line: #e7e5e4; --accent: #2563eb;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #0c0a09; --fg: #f5f5f4; --muted: #a8a29e; --card: #1c1917; --line: #292524; --accent: #60a5fa; }
+    --bg: #151312; --fg: #fff; --muted: #998f8f; --line: #b6b4bd33;
+    --orange: #f46c38; --lime: #c5ff41; --cream: #faf7f3; --ink: #111;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, sans-serif; }
-  main { max-width: 960px; margin: 0 auto; padding: 0 16px 64px; }
-  a { color: var(--accent); }
-  nav { display: flex; gap: 20px; justify-content: flex-end; padding: 20px 0; }
-  nav a { color: var(--muted); text-decoration: none; }
-  nav a:hover { color: var(--fg); }
-  header { display: flex; gap: 28px; align-items: center; padding: 48px 0; flex-wrap: wrap; }
-  header img { width: 120px; height: 120px; border-radius: 50%; }
-  h1 { font-size: clamp(2rem, 5vw, 2.8rem); margin: 0 0 8px; line-height: 1.1; }
-  h2 { font-size: 1.4rem; margin: 56px 0 16px; }
-  .muted { color: var(--muted); }
-  .links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
-  .btn { padding: 8px 16px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: var(--fg); background: var(--card); }
-  .btn:hover { border-color: var(--accent); }
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
-  .tags li { padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: .9rem; background: var(--card); }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; }
-  .card h3 { margin: 0 0 8px; font-size: 1.1rem; }
-  .card p { margin: 0 0 12px; color: var(--muted); flex: 1; }
-  .card .stack { font-size: .85rem; color: var(--muted); margin-bottom: 12px; }
-  .card .actions { display: flex; gap: 16px; font-size: .95rem; }
-  footer { text-align: center; padding: 32px 16px; color: var(--muted); font-size: .9rem; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 Inter, system-ui, sans-serif; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* floating pill nav */
+  nav { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10;
+        display: flex; gap: 4px; padding: 6px; border-radius: 16px;
+        background: #1f1c1bcc; border: 1px solid var(--line); backdrop-filter: blur(12px); }
+  nav a { padding: 8px 14px; border-radius: 10px; font-size: 14px; color: var(--muted); transition: .2s; }
+  nav a:hover { color: var(--fg); background: #ffffff14; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 120px 16px 40px;
+          display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: start; }
+
+  /* sticky profile card */
+  .profile { position: sticky; top: 100px; background: var(--fg); color: var(--ink);
+             border-radius: 24px; padding: 32px; text-align: center; }
+  .profile img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 16px; margin-bottom: 24px; }
+  .profile h2 { font-size: 28px; font-weight: 800; margin: 0 0 12px; }
+  .profile p { color: #6a6b6e; margin: 0 0 24px; }
+  .profile .dash { position: absolute; top: 18px; right: 18px; width: 72px; height: 72px;
+                   border: 2px dashed var(--orange); border-radius: 50%; pointer-events: none; }
+  .socials { display: flex; justify-content: center; gap: 16px; }
+  .socials a { color: var(--orange); transition: transform .2s; }
+  .socials a:hover { transform: translateY(-3px); }
+  .socials svg { width: 24px; height: 24px; fill: currentColor; }
+
+  /* big two-tone headings */
+  h1, .h { font-size: clamp(48px, 9vw, 96px); font-weight: 900; line-height: .9; margin: 0 0 24px;
+           text-transform: uppercase; letter-spacing: -.02em; }
+  h1 span, .h span { display: block; color: var(--muted); opacity: .45; }
+  .lead { color: var(--muted); font-size: 18px; max-width: 480px; margin: 0 0 40px; }
+  section { margin-bottom: 120px; scroll-margin-top: 100px; }
+
+  .stats { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
+  .stats b { display: block; font-size: 64px; font-weight: 800; line-height: 1; }
+  .stats small { color: var(--muted); text-transform: uppercase; font-size: 14px; line-height: 1.3; display: block; margin-top: 6px; }
+
+  .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .skill { border-radius: 16px; padding: 28px; min-height: 200px; color: var(--ink);
+           display: flex; flex-direction: column; justify-content: space-between; transition: transform .25s; }
+  .skill:hover { transform: translateY(-4px); }
+  .skill svg { width: 40px; height: 40px; }
+  .skill strong { font-size: 18px; font-weight: 800; text-transform: uppercase; line-height: 1.25; }
+
+  /* project rows */
+  .row { display: flex; gap: 20px; align-items: center; padding: 12px; border-radius: 16px; transition: background .2s; }
+  .row:hover { background: #ffffff0d; }
+  .row img { width: 140px; aspect-ratio: 2/1; object-fit: cover; border-radius: 10px; flex-shrink: 0; background: #222; }
+  .row div { flex: 1; min-width: 0; }
+  .row h3 { margin: 0 0 4px; font-size: 22px; font-weight: 800; }
+  .row p { margin: 0; color: var(--muted); font-size: 14px; }
+  .arrow { color: var(--orange); font-size: 24px; transition: transform .2s; }
+  .row:hover .arrow { transform: translate(4px, -4px); }
+
+  .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .tool { display: flex; gap: 14px; align-items: center; padding: 14px; border-radius: 14px; transition: background .2s; }
+  .tool:hover { background: #ffffff0d; }
+  .tool img { width: 44px; height: 44px; padding: 10px; border-radius: 10px; background: var(--fg); }
+  .tool b { display: block; } .tool small { color: var(--muted); }
+
+  .cta { display: inline-block; padding: 16px 28px; border-radius: 12px; background: var(--orange);
+         color: var(--fg); font-weight: 600; transition: transform .2s; }
+  .cta:hover { transform: translateY(-2px); }
+  footer { color: var(--muted); font-size: 14px; }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } html { scroll-behavior: auto; } }
+
+  @media (max-width: 860px) {
+    .wrap { grid-template-columns: 1fr; gap: 48px; padding-top: 96px; }
+    .profile { position: static; max-width: 400px; margin: 0 auto; }
+    .skills { grid-template-columns: 1fr; }
+    .row img { width: 96px; }
+    .row h3 { font-size: 18px; }
+    nav a { padding: 8px 10px; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <nav>
-    <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<nav>
+  <a href="#home">Home</a>
+  <a href="#projects">Projects</a>
+  <a href="#tools">Tools</a>
+  <a href="#contact">Contact</a>
+</nav>
 
-  <header>
-    <img src="https://avatars.githubusercontent.com/u/144384744?v=4" alt="Anmolji Bhandare">
-    <div>
-      <h1>Anmolji Bhandare</h1>
-      <p class="muted">Data / business analyst and aspiring data scientist & ML engineer. I turn messy data into clear business decisions with SQL, Python, Tableau and machine learning.</p>
-      <div class="links">
-        <a class="btn" href="https://github.com/Anmol7860-bit">GitHub</a>
-        <a class="btn" href="https://linkedin.com/in/anmolji-bhandare-593ab9269">LinkedIn</a>
-        <a class="btn" href="https://x.com/ANMOLDBHANDARE2">X</a>
+<div class="wrap">
+  <aside class="profile">
+    <span class="dash"></span>
+    <img src="https://avatars.githubusercontent.com/u/144384744?s=460" alt="Anmolji Bhandare">
+    <h2>Anmolji Bhandare</h2>
+    <p>A data analyst turning messy data into clear business decisions.</p>
+    <div class="socials">
+      <a href="https://github.com/Anmol7860-bit" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></a>
+      <a href="https://linkedin.com/in/anmolji-bhandare-593ab9269" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.5H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/></svg></a>
+      <a href="https://x.com/ANMOLDBHANDARE2" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.9 1.2h3.7l-8 9.2L24 22.8h-7.4l-5.8-7.6-6.6 7.6H.5L9 13 0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.4h2L6.5 3.2H4.3l13.3 17.4z"/></svg></a>
+      <a href="https://instagram.com/anmol_4real_" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
+    </div>
+  </aside>
+
+  <main>
+    <section id="home">
+      <h1 class="reveal">Data<span>Analyst</span></h1>
+      <p class="lead reveal">Aspiring data scientist & ML engineer. I combine SQL, Python, Tableau and machine learning with a consulting-oriented approach to solve real business problems.</p>
+      <div class="stats reveal">
+        <div><b>+19</b><small>Public<br>repositories</small></div>
+        <div><b>+9</b><small>Featured<br>projects</small></div>
+        <div><b>+2</b><small>Live<br>web apps</small></div>
       </div>
-    </div>
-  </header>
+      <div class="skills reveal">
+        <div class="skill" style="background: var(--orange)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></svg>
+          <strong>Data analytics, SQL, Tableau dashboards</strong>
+        </div>
+        <div class="skill" style="background: var(--lime)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
+          <strong>Python, machine learning, RAG / LLMs</strong>
+        </div>
+      </div>
+    </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="grid">
-      <article class="card">
-        <h3>Studious</h3>
-        <p>A virtual study campus for students and self-learners.</p>
-        <div class="stack">JavaScript · Full-stack</div>
-        <div class="actions"><a href="https://backend-black-beta-28.vercel.app">Live</a><a href="https://github.com/Anmol7860-bit/studious">Code</a></div>
-      </article>
-      <article class="card">
-        <h3>Art-O-Mart</h3>
-        <p>Google Gen AI–powered marketplace for artisans, with AI-driven insights and recommendations. Built at the Gen AI Exchange Hackathon.</p>
-        <div class="stack">Gen AI · Web</div>
-        <div class="actions"><a href="https://art-o-mart.vercel.app/">Live</a><a href="https://github.com/Anmol7860-bit/Art-O-Mart-Gen-AI-Exchange-Hackathon-H2S">Code</a></div>
-      </article>
-      <article class="card">
-        <h3>Telco Customer Churn</h3>
-        <p>End-to-end churn analysis and prediction: cleaning, EDA, ML models, SQL business analysis and an interactive Tableau dashboard.</p>
-        <div class="stack">Python · scikit-learn · SQL · Tableau</div>
-        <div class="actions"><a href="https://github.com/Anmol7860-bit/Telco-Customer-Churn-ML-DATA-ANALYST-project">Code</a></div>
-      </article>
-      <article class="card">
-        <h3>RAG Pipeline</h3>
-        <p>Retrieval-augmented generation system for answering questions over custom documents.</p>
-        <div class="stack">Python · LLMs</div>
-        <div class="actions"><a href="https://github.com/Anmol7860-bit/Rag">Code</a></div>
-      </article>
-      <article class="card">
-        <h3>ML Document Analyzer</h3>
-        <p>Machine-learning tool for analyzing and extracting insights from documents.</p>
-        <div class="stack">Python · ML</div>
-        <div class="actions"><a href="https://github.com/Anmol7860-bit/ML-document-analyzer">Code</a></div>
-      </article>
-      <article class="card">
-        <h3>CivicKey Society Management</h3>
-        <p>App for managing residential societies: members, notices and day-to-day operations.</p>
-        <div class="stack">TypeScript</div>
-        <div class="actions"><a href="https://github.com/Anmol7860-bit/CivicKey-Society-Management-App">Code</a></div>
-      </article>
-      <article class="card">
-        <h3>Zepto Inventory & Pricing</h3>
-        <p>SQL analysis of Zepto's product inventory: pricing, discounts, stock availability and category performance.</p>
-        <div class="stack">PostgreSQL</div>
-        <div class="actions"><a href="https://github.com/Anmol7860-bit/Zepto-Data-Analyst-Project">Code</a></div>
-      </article>
-      <article class="card">
-        <h3>King County House Sales</h3>
-        <p>Interactive Tableau dashboard exploring house prices and sales trends in King County.</p>
-        <div class="stack">Tableau</div>
-        <div class="actions"><a href="https://public.tableau.com/shared/326JW66BD?:display_count=n&:origin=viz_share_link">Dashboard</a><a href="https://github.com/Anmol7860-bit/Tableau-KIng-county-House-Sales-Dashboard">Code</a></div>
-      </article>
-      <article class="card">
-        <h3>Credit Card Data Analysis</h3>
-        <p>EDA on a credit card dataset: credit limits, card brands, security features and fraud indicators.</p>
-        <div class="stack">Python · Pandas · Seaborn</div>
-        <div class="actions"><a href="https://github.com/Anmol7860-bit/Data-analyst-Finance-Project">Code</a></div>
-      </article>
-    </div>
-  </section>
+    <section id="projects">
+      <h2 class="h reveal">Recent<span>Projects</span></h2>
+      <!-- thumbnails are GitHub's auto-generated social cards; swap in screenshots any time -->
+      <a class="row reveal" href="https://backend-black-beta-28.vercel.app"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/studious" alt=""><div><h3>Studious</h3><p>Virtual study campus for students & self-learners · JavaScript</p></div><span class="arrow">↗</span></a>
+      <a class="row reveal" href="https://art-o-mart.vercel.app/"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Art-O-Mart-Gen-AI-Exchange-Hackathon-H2S" alt=""><div><h3>Art-O-Mart</h3><p>Gen AI marketplace for artisans · Gen AI Exchange Hackathon</p></div><span class="arrow">↗</span></a>
+      <a class="row reveal" href="https://github.com/Anmol7860-bit/Telco-Customer-Churn-ML-DATA-ANALYST-project"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Telco-Customer-Churn-ML-DATA-ANALYST-project" alt=""><div><h3>Telco Customer Churn</h3><p>End-to-end churn prediction · Python, ML, SQL, Tableau</p></div><span class="arrow">↗</span></a>
+      <a class="row reveal" href="https://github.com/Anmol7860-bit/Rag"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Rag" alt=""><div><h3>RAG Pipeline</h3><p>Question answering over custom documents · Python, LLMs</p></div><span class="arrow">↗</span></a>
+      <a class="row reveal" href="https://github.com/Anmol7860-bit/ML-document-analyzer"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/ML-document-analyzer" alt=""><div><h3>ML Document Analyzer</h3><p>Extracting insights from documents with ML · Python</p></div><span class="arrow">↗</span></a>
+      <a class="row reveal" href="https://github.com/Anmol7860-bit/CivicKey-Society-Management-App"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/CivicKey-Society-Management-App" alt=""><div><h3>CivicKey</h3><p>Residential society management app · TypeScript</p></div><span class="arrow">↗</span></a>
+      <a class="row reveal" href="https://github.com/Anmol7860-bit/Zepto-Data-Analyst-Project"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Zepto-Data-Analyst-Project" alt=""><div><h3>Zepto Inventory & Pricing</h3><p>Pricing, discount & stock analysis · PostgreSQL</p></div><span class="arrow">↗</span></a>
+      <a class="row reveal" href="https://public.tableau.com/shared/326JW66BD?:display_count=n&:origin=viz_share_link"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Tableau-KIng-county-House-Sales-Dashboard" alt=""><div><h3>King County House Sales</h3><p>Interactive sales & price dashboard · Tableau</p></div><span class="arrow">↗</span></a>
+      <a class="row reveal" href="https://github.com/Anmol7860-bit/Data-analyst-Finance-Project"><img loading="lazy" src="https://opengraph.githubassets.com/1/Anmol7860-bit/Data-analyst-Finance-Project" alt=""><div><h3>Credit Card Analysis</h3><p>EDA on credit limits, brands & fraud signals · Pandas, Seaborn</p></div><span class="arrow">↗</span></a>
+    </section>
 
-  <section id="skills">
-    <h2>Skills</h2>
-    <ul class="tags">
-      <li>Python</li><li>SQL / PostgreSQL</li><li>Pandas & NumPy</li><li>scikit-learn</li>
-      <li>Matplotlib & Seaborn</li><li>Tableau</li><li>Machine Learning</li><li>RAG / LLMs</li>
-      <li>TypeScript</li><li>JavaScript</li><li>Git</li>
-    </ul>
-    <p class="muted">Currently learning: Deep Learning, FastAPI, Docker, AWS, Agentic AI and feature engineering.</p>
-  </section>
+    <section id="tools">
+      <h2 class="h reveal">My<span>Toolkit</span></h2>
+      <div class="tools reveal">
+        <div class="tool"><img src="https://cdn.simpleicons.org/python" alt=""><div><b>Python</b><small>Analysis & ML</small></div></div>
+        <div class="tool"><img src="https://cdn.simpleicons.org/postgresql" alt=""><div><b>PostgreSQL</b><small>SQL analytics</small></div></div>
+        <div class="tool"><img src="https://cdn.simpleicons.org/pandas/150458" alt=""><div><b>Pandas</b><small>Data wrangling</small></div></div>
+        <div class="tool"><img src="https://cdn.simpleicons.org/scikitlearn" alt=""><div><b>scikit-learn</b><small>Machine learning</small></div></div>
+        <div class="tool"><img src="https://cdn.simpleicons.org/jupyter" alt=""><div><b>Jupyter</b><small>Notebooks</small></div></div>
+        <div class="tool"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e97627' stroke-width='2.5'%3E%3Cpath d='M12 2v8M8 6h8M5 12v6M2 15h6M19 12v6M16 15h6M12 16v6M9 19h6'/%3E%3C/svg%3E" alt=""><div><b>Tableau</b><small>Dashboards</small></div></div>
+        <div class="tool"><img src="https://cdn.simpleicons.org/typescript" alt=""><div><b>TypeScript</b><small>Web apps</small></div></div>
+        <div class="tool"><img src="https://cdn.simpleicons.org/git" alt=""><div><b>Git</b><small>Version control</small></div></div>
+      </div>
+      <p class="lead reveal" style="margin-top:32px">Currently learning: Deep Learning, FastAPI, Docker, AWS, Agentic AI and feature engineering.</p>
+    </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p class="muted">Open to data analyst / ML roles and collaborations. The fastest way to reach me is <a href="https://linkedin.com/in/anmolji-bhandare-593ab9269">LinkedIn</a>.</p>
-  </section>
-</main>
-<footer>© Anmolji Bhandare</footer>
+    <section id="contact">
+      <h2 class="h reveal">Let's work<span>Together</span></h2>
+      <p class="lead reveal">Open to data analyst / ML roles and collaborations.</p>
+      <a class="cta reveal" href="https://linkedin.com/in/anmolji-bhandare-593ab9269">Message me on LinkedIn ↗</a>
+    </section>
+
+    <footer>© Anmolji Bhandare</footer>
+  </main>
+</div>
+
+<script>
+  const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
